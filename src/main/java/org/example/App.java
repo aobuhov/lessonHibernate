@@ -17,15 +17,19 @@ public class App
             Session session = sessionFactory.getCurrentSession();
 
             session.beginTransaction();
-            Person person1 = new Person("test1", 30);
-            Person person2 = new Person("test2", 40);
-            Person person3 = new Person("test3", 50);
+            //Person person = session.get(Person.class, 2);
+            //person.setName("New name");
 
-            session.save(person1);
-            session.save(person2);
-            session.save(person3);
+            //session.delete(person);
+
+            Person newPerson = new Person("Max", 15);
+            session.save(newPerson);
+
+            System.out.println("before" + newPerson.getId());
 
             session.getTransaction().commit();
+
+            System.out.println("after" + newPerson.getId());
         }
 
     }
