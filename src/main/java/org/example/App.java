@@ -25,67 +25,46 @@ public class App
             Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
 
-//            Person person = session.get(Person.class, 3);
-//            System.out.println(person);
-//
-//            List<Item> items = person.getItems();
-//            for(Item item: items){
-//                System.out.println(item);
-//            }
 
-//            Item item = session.get(Item.class, 5);
-//            System.out.println(item);
-//
-//            Person person = item.getOwner();
-//            System.out.println(person);
+//            Person person = session.get(Person.class, 1);
+//            person.setName("#1");
+//            session.save(person);
+//            person.setName("#2");
 
-//            Person person = session.get(Person.class, 2);
-//            Item newItem = new Item("Hibernate", person);
-//            person.getItems().add(newItem); //best practice
-//            session.save(newItem);
-//
+
+//            Person person = session.get(Person.class, 1);
+//            session.detach(person);
+//            person.setName("#1");
+//            session.merge(person);
+
+//            Person person = session.get(Person.class, 1);
+//            session.detach(person);
+//            person.setName("#1");
+//            session.merge(person);
+//            person.setName("#2");
+//            session.getTransaction().commit();  // в базе обновился person(id = 1) name = #1, а не на #2, что мне не понятно
+            //потому что merge не возвращает переданный объект в Persistent Context, а воздаёт новый объект, помещённый в Persistent Context и возвращает его
+
+//            Person person = session.get(Person.class, 1);
+//            session.detach(person);
+//            person.setName("#1");
+//            session.merge(person);
+//            person.setName("#2");
+//            session.save(person);
 //            session.getTransaction().commit();
-
-
-            //create person and item
-//            Person person = new Person("name2", 19);
-//            Item item = new Item("H3", person);
-//            person.setItems(new ArrayList<Item>(Collections.singletonList(item)));
-//
-//            //session.save(person);
-//            session.save(item);
-
-            //deleting item
-//            Person person = session.get(Person.class, 3);
-//            List<Item> items = person.getItems();
-//            for (Item item: items) {
-//                session.remove(item);
-//            }
-//            person.getItems().clear();
-
-
-            //delete person
-//            Person person = session.get(Person.class, 2);
-//            session.remove(person);
-//            person.getItems().forEach(i -> i.setOwner(null));
-
-            //change ouner of item
-            Person person = session.get(Person.class, 3);
-            Item item = session.get(Item.class, 9);
-            item.getOwner().getItems().remove(item);
-            item.setOwner(person);
-            person.getItems().add(item);
-
-
-
+            // в базе обновился person(id = 1) name = #1, а не на #2, и кроме этого создаётся новая строка person с name = #2
+            //потому что merge не возвращает переданный объект в Persistent Context, а воздаёт новый объект, помещённый в Persistent Context и возвращает его
+            //а надо так
+            Person person = session.get(Person.class, 1);
+            session.detach(person);
+            person.setName("#1");
+            Person otherPerson = (Person) session.merge(person);
+            otherPerson.setName("#2");
+            session.save(otherPerson);
             session.getTransaction().commit();
+// в базе обновился person(id = 1) name = #1, а не на #2, и кроме этого создаётся новая строка person с name = #2
 
-            System.out.println("after");
-
-//            items = person.getItems();
-//            for(Item item: items){
-//                System.out.println(item);
-//            }
+            session.getTransaction().commit();    //в результате у person id = 1 устанавливается name = #2, что логично
 
         }
 
