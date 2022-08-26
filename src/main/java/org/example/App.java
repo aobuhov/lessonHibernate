@@ -38,10 +38,11 @@ public class App
 //            Person person = session.get(Person.class, 15);
 //            System.out.println(person.getPassport().getPassportNumber());
 
+
 //            Passport passport = session.get(Passport.class, 16);
 //            System.out.println(passport.getPerson().getName());
 
-//
+
 //            Person person = session.get(Person.class, 15);
 //            person.getPassport().setPassportNumber(0);
 
